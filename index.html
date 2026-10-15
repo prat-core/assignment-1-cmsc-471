@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Daily highs at three U.S. weather stations in 2017.">
+  <title>2017 Temperatures | Assignment 1</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./css/styles.css">
+  <script defer src="./vendor/d3.v3.5.6.min.js"></script>
+  <script defer src="./js/data-utils.js"></script>
+  <script defer src="./js/script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#explorer">Skip to charts</a>
+  <header class="site-header page-width">
+    <a class="wordmark" href="#top" aria-label="Back to top"><span class="sun-mark" aria-hidden="true">☼</span> Weather <span class="wordmark-year">/ 2017</span></a>
+    <nav aria-label="Page navigation"><a href="#explorer">Charts</a></nav>
+  </header>
+  <main id="top" class="page-width">
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow">Assignment 1</p>
+        <h1 id="page-title">Temperatures in <em>2017</em></h1>
+        <p class="hero-copy">Compare daily highs at three weather stations.</p>
+      </div>
+      <div class="hero-note"><p>Compare stations</p><span>Choose dates and a temperature cutoff.</span></div>
+    </section>
+
+    <section id="explorer" class="explorer" aria-label="Weather charts">
+      <div id="load-status" class="status-box" role="status">Loading data…</div>
+      <noscript><p class="status-box error">Enable JavaScript to view the charts.</p></noscript>
+      <form id="controls" class="control-panel" aria-label="Chart filters">
+        <fieldset class="station-fieldset"><legend class="small-label">Stations</legend><div id="station-controls" class="station-options"></div></fieldset>
+        <fieldset class="threshold-fieldset"><legend class="small-label">Temperature cutoff</legend>
+          <div class="threshold-heading"><label for="threshold">Count days at or above</label><output for="threshold" id="threshold-output">90°F</output></div>
+          <input id="threshold" name="threshold" type="range" min="0" max="130" step="1" value="90" aria-describedby="threshold-help">
+          <div class="range-labels" id="threshold-help"><span>0°F</span><span>Daily high</span><span>130°F</span></div>
+        </fieldset>
+        <div class="reset-wrap"><button id="reset" class="button button-light" type="button"><span aria-hidden="true">↺</span> Reset</button></div>
+      </form>
+      <div class="date-toolbar">
+        <div class="date-inputs"><span class="small-label">Dates</span><label for="start-date">From<input id="start-date" type="date" min="2017-01-01" max="2017-12-31" value="2017-01-01"></label><label for="end-date">Through<input id="end-date" type="date" min="2017-01-01" max="2017-12-31" value="2017-12-31"></label></div>
+        <div class="presets" aria-label="Date shortcuts"><button type="button" data-preset="year" aria-pressed="true">Full year</button><button type="button" data-preset="summer" aria-pressed="false">Jun–Aug</button><button type="button" data-preset="july" aria-pressed="false">July</button></div>
+      </div>
+      <p id="filter-message" class="filter-message" role="status"></p>
+
+      <div class="chart-layout">
+        <section class="card trend-card" aria-labelledby="trend-title">
+          <div class="card-heading"><div><h2 id="trend-title">Daily highs</h2></div><span class="unit-badge">°F</span></div>
+          <p class="chart-caption">Hover or tap for daily values.</p>
+          <div id="line-chart" class="chart-host"></div>
+          <div class="brush-heading"><span class="small-label">Select dates</span><output id="range-label">Jan 1 – Dec 31, 2017</output></div>
+          <div id="brush-chart" class="brush-host" aria-label="Drag to select dates, or use the date fields above."></div>
+          <p class="microcopy">Drag to select dates. Move the selection or drag its edges to resize.</p>
+        </section>
+        <section class="card comparison-card" aria-labelledby="comparison-title">
+          <div class="card-heading"><div><h2 id="comparison-title">Days meeting cutoff</h2></div></div>
+          <p id="bar-caption" class="chart-caption">% of recorded days at or above 90°F.</p>
+          <div id="bar-chart" class="chart-host"></div>
+          <p class="microcopy">Hover or focus a bar to highlight its station.</p>
+          <div class="finding"><span class="small-label">Summary</span><p id="finding-text">Select stations and dates.</p></div>
+        </section>
+      </div>
+
+      <section class="inspector" aria-labelledby="inspect-title">
+        <div class="inspector-intro"><h3 id="inspect-title">Daily values</h3><p>Hover over the chart or select a date.</p><input id="inspect-date" type="date" min="2017-01-01" max="2017-12-31" value="2017-06-20" aria-label="Date to inspect"></div>
+        <div id="day-values" class="day-values" aria-live="polite" aria-atomic="true"></div>
+      </section>
+
+      <div class="exploration-prompts"><span class="small-label">Examples</span><button id="june-story" type="button">June: 110°F <span aria-hidden="true">↗</span></button><button id="september-story" type="button">September: 85°F <span aria-hidden="true">↗</span></button><span class="prompt-note">Sets stations, dates, and cutoff.</span></div>
+      <details class="data-details"><summary>Data table</summary><div class="table-scroll"><table><caption id="table-caption">Selected dates</caption><thead><tr><th scope="col">Station</th><th scope="col">Recorded / total days</th><th scope="col">Days ≥ cutoff</th><th scope="col">Percent</th><th scope="col">Highest temperature</th><th scope="col">First peak date</th></tr></thead><tbody id="summary-body"></tbody></table></div><button id="export" type="button" class="button button-light">Download CSV</button></details>
+      <div class="source-strip"><span>NOAA GHCN-Daily · 2017</span><span id="coverage-text">Checking data…</span></div>
+    </section>
+  </main>
+  <footer class="page-width footer"><span>CMSC471</span><a href="#top">Back to top ↑</a></footer>
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+</body>
+</html>

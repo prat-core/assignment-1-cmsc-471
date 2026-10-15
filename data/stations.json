@@ -1,0 +1,29 @@
+[
+  {
+    "id": "USC00042319",
+    "label": "Death Valley",
+    "state": "CA",
+    "name": "Death Valley, California",
+    "color": "#be4e27",
+    "dash": "",
+    "source": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/USC00042319.dly"
+  },
+  {
+    "id": "USW00023183",
+    "label": "Phoenix",
+    "state": "AZ",
+    "name": "Phoenix Airport, Arizona",
+    "color": "#8064a2",
+    "dash": "7,3",
+    "source": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/USW00023183.dly"
+  },
+  {
+    "id": "USC00304174",
+    "label": "Ithaca",
+    "state": "NY",
+    "name": "Ithaca Cornell University, New York",
+    "color": "#007d83",
+    "dash": "2,3",
+    "source": "https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/USC00304174.dly"
+  }
+]
