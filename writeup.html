@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dataset, design decisions, interactions, and development process for Temperatures in 2017.">
+  <title>Write-up | Temperatures in 2017</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#writeup">Skip to write-up</a>
+  <main id="writeup" class="writeup-page">
+    <nav class="article-nav" aria-label="Project pages"><a href="./">Back to visualization</a></nav>
+    <article aria-labelledby="writeup-title">
+      <header class="article-header">
+        <h1 id="writeup-title">Temperatures in 2017</h1>
+        <p>Assignment 1</p>
+      </header>
+
+      <section aria-labelledby="dataset-title">
+        <h2 id="dataset-title">1. Dataset and question</h2>
+        <p>This project compares how often three U.S. weather stations reached a chosen temperature in 2017, and when those days occurred. It uses daily highs from Death Valley, California, Phoenix Airport, Arizona, and Ithaca Cornell University, New York. The two hot southwestern stations contrast with the cooler northeastern station.</p>
+        <p>The dataset has 1,095 station-day records covering January 1 through December 31, with 365 valid observations per station. The project's station metadata identifies NOAA's Global Historical Climatology Network-Daily (GHCN-Daily) as the source. The charts use station, date, and daily high rounded to whole degrees Fahrenheit. The CSV also keeps temperatures in tenths of Celsius, along with measurement, quality, and source flags.</p>
+        <p>A day meets the cutoff when its rounded Fahrenheit high is at or above that temperature. The percentage is the number of qualifying days divided by the number of valid recorded days in the selected range, including both endpoints. Missing or quality-flagged values are excluded from the calculation, not counted as zero. This subset has complete coverage.</p>
+      </section>
+
+      <section aria-labelledby="design-title">
+        <h2 id="design-title">2. Design rationale and tradeoffs</h2>
+        <p>The line chart plots date horizontally and daily high vertically. Connecting successive days makes seasonal changes and short hot spells easier to follow. Its temperature axis stays at 0 to 140°F as users change dates, so a shorter time window does not stretch small temperature differences. Each station keeps the same color across views. Solid, dashed, and dotted lines also distinguish the stations.</p>
+        <p>The horizontal bars show the percentage of recorded days meeting the cutoff on a fixed 0 to 100% scale, with counts alongside the percentages. This makes frequency easier to compare than it would be from the lines alone. The line chart still shows when those days occurred. The cutoff line marks the temperature used to calculate the bar values.</p>
+        <p>A calendar heatmap could fit a year into less space, though color would make precise temperatures harder to compare. A map would give more attention to location than to the timing and frequency of hot days. Separate panels would reduce overlapping lines but make comparisons on the same date less direct.</p>
+      </section>
+
+      <section aria-labelledby="interactions-title">
+        <h2 id="interactions-title">3. Implemented interactions</h2>
+        <ul class="interaction-list">
+          <li>Brushing and linking let users drag, move, or resize a date selection in the full-year overview. The main chart, bars, summary, inspector, and table update to that range. The overview keeps the full year visible.</li>
+          <li>Dynamic queries include station checkboxes and a cutoff slider from 0 to 130°F. The checkboxes select the stations to display; the slider updates the reference line, counts, and percentages. Date fields and the Full year, Jun–Aug, and July shortcuts give users alternatives to dragging.</li>
+          <li>Details on demand show daily values when users hover over or tap the line chart. The persistent inspector also has a date field and supports the arrow keys, Home, and End. Bar tooltips show counts, percentages, and the maximum temperature in the selected range.</li>
+          <li>Linked highlighting emphasizes a station's line and dims the others when users hover over or focus its bar. This helps connect a station's percentage to its daily temperatures.</li>
+          <li>Guided examples set the stations, dates, and cutoff for June: 110°F and September: 85°F. Reset returns to all stations, the full year, and 90°F. Users can open the summary table or download its values as a CSV.</li>
+        </ul>
+        <p>Brushing keeps the annual pattern in view while users narrow the dates, which date fields alone do not do. The slider lets users change what counts as a hot day. Daily inspection gives the stored values when lines overlap, without crowding the chart with labels.</p>
+        <p>The brush and dynamic queries meet Category I of the assignment. Details on demand, highlighting, and guided examples meet Category II. Date fields, focusable bars, keyboard inspection, and the table provide alternatives to pointer-only exploration.</p>
+        <h3>What users can discover</h3>
+        <p>With the default 90°F cutoff and full year selected, Death Valley has 208 qualifying days (57.0%), Phoenix has 192 (52.6%), and Ithaca has 1 (0.3%). Selecting June and increasing the cutoff to 110°F gives 21 of 30 days in Death Valley, 11 in Phoenix, and none in Ithaca.</p>
+        <p>At an 85°F cutoff in September, both southwestern stations qualify on all 30 days. Ithaca qualifies on 4 days (13.3%). Its September maximum is 89°F, first reached September 26 and repeated on September 27 and 28. The bars give the frequency, while the line chart and inspector let users find the individual dates.</p>
+        <p>The results cover daily maxima at three individual stations during one year. They do not measure all-day heat exposure, represent whole cities, or establish long-term climate trends. When a maximum occurs more than once in the selected range, the table reports the first date.</p>
+      </section>
+
+      <section aria-labelledby="development-title">
+        <h2 id="development-title">4. Development process</h2>
+        <p>The application uses static HTML, CSS, JavaScript, and D3.js 3.5.6, which is bundled with the project. Data utilities handle date parsing, validation, station series, and summaries separately from chart rendering and event handling. The charts share the selected stations, date range, cutoff, and inspected date so that the views stay consistent. The application does not need a custom backend.</p>
+        <p>Parth worked on the development of the visualization. Pratyaksh worked on the write-up. We discussed ideas for both ideas along with AI-assistance.</p>
+        <p>We spent <mark class="pending-hours" title="Add the actual visualization people-hours">&lt;&gt;</mark> hours on the ideation and development of the visualization and <mark class="pending-hours" title="Add the actual write-up people-hours">&lt;&gt;</mark> on the writeup.</p>
+        <p>The most time-consuming and important task was discussing ideas about visualizations and finalizing them.</p>
+      </section>
+
+      <section aria-labelledby="ai-title">
+        <h2 id="ai-title">5. AI usage</h2>
+        <p>Codex was used during project development. We used it to go through the course material and had conversations about what visualization strategies would be the most appropriate according to the materials discussed in the course. It also assisted with the write-up.</p>
+      </section>
+
+      <section aria-labelledby="references-title">
+        <h2 id="references-title">6. Data and technical references</h2>
+        <ul class="reference-list">
+          <li><a href="https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt">NOAA NCEI. GHCN-Daily documentation.</a> Raw TMAX values use tenths of degrees Celsius.</li>
+          <li><a href="https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/USC00042319.dly">NOAA station data. Death Valley (USC00042319).</a></li>
+          <li><a href="https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/USW00023183.dly">NOAA station data. Phoenix Airport (USW00023183).</a></li>
+          <li><a href="https://www.ncei.noaa.gov/pub/data/ghcn/daily/all/USC00304174.dly">NOAA station data. Ithaca Cornell University (USC00304174).</a></li>
+          <li><a href="https://zcliu.github.io/teaching/CMSC471/assignments/A1-interactive.html">CMSC 471. Assignment 1 requirements and weather dataset background.</a></li>
+          <li><a href="https://github.com/d3/d3-3.x-api-reference/blob/master/API-Reference.md">D3.js. D3 3.x API reference.</a> The implementation bundles version 3.5.6.</li>
+          <li><a href="https://github.com/prat-core/assignment-1-cmsc-471">Project repository. Local weather subset, station metadata, and application source.</a></li>
+        </ul>
+      </section>
+    </article>
+  </main>
+</body>
+</html>
